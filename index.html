@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💕 Uma Pergunta Especial 💕</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .container {
+            text-align: center;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+        }
+
+        .heart {
+            font-size: 80px;
+            animation: heartbeat 1.5s ease-in-out infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        h1 {
+            color: #333;
+            font-size: 28px;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+            position: relative;
+            min-height: 60px;
+        }
+
+        .btn {
+            padding: 15px 40px;
+            font-size: 20px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-yes {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            box-shadow: 0 5px 20px rgba(245, 87, 108, 0.4);
+        }
+
+        .btn-yes:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 30px rgba(245, 87, 108, 0.6);
+        }
+
+        .btn-no {
+            background: linear-gradient(135deg, #a8a8a8 0%, #7f7f7f 100%);
+            color: white;
+            box-shadow: 0 5px 20px rgba(127, 127, 127, 0.4);
+            position: absolute;
+            transition: all 0.1s ease;
+        }
+
+        .success-message {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .success-message h2 {
+            color: #f5576c;
+            font-size: 32px;
+            margin-bottom: 15px;
+        }
+
+        .success-message p {
+            color: #666;
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .celebration {
+            font-size: 60px;
+            animation: bounce 0.5s ease infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .sparkles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .sparkle {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: white;
+            border-radius: 50%;
+            animation: sparkle 3s ease-in-out infinite;
+        }
+
+        @keyframes sparkle {
+            0%, 100% { opacity: 0; transform: scale(0); }
+            50% { opacity: 1; transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <div class="sparkles" id="sparkles"></div>
+    
+    <div class="container" id="container">
+        <div class="heart">💖</div>
+        <h1>Você quer namorar comigo?</h1>
+        
+        <div class="buttons" id="buttons">
+            <button class="btn btn-yes" onclick="sayYes()">SIM 💕</button>
+            <button class="btn btn-no" id="btnNo" onmouseover="moveButton()">NÃO</button>
+        </div>
+
+        <div class="success-message" id="successMessage">
+            <div class="celebration">🎉💕🎉</div>
+            <h2>Eu te amo lele!</h2>
+            <p>Você me fez a pessoa mais feliz do mundo! ❤️</p>
+            <p style="font-size: 24px;">Vamos ser muito felizes juntos! 💑</p>
+        </div>
+    </div>
+
+    <script>
+        let attempts = 0;
+        const btnNo = document.getElementById('btnNo');
+        const buttonsContainer = document.getElementById('buttons');
+        const container = document.getElementById('container');
+        const successMessage = document.getElementById('successMessage');
+
+        function moveButton() {
+            attempts++;
+            
+            const containerRect = container.getBoundingClientRect();
+            const buttonRect = btnNo.getBoundingClientRect();
+            
+            // Calculate random position within container
+            const maxX = containerRect.width - buttonRect.width - 40;
+            const maxY = containerRect.height - buttonRect.height - 100;
+            
+            const randomX = Math.random() * maxX - maxX/2;
+            const randomY = Math.random() * maxY - maxY/2;
+            
+            btnNo.style.transform = `translate(${randomX}px, ${randomY}px)`;
+            
+            // Make button smaller with each attempt
+            const scale = Math.max(0.3, 1 - (attempts * 0.1));
+            btnNo.style.transform += ` scale(${scale})`;
+            
+            // Change button text after some attempts
+            if (attempts >= 3) {
+                btnNo.textContent = 'Tem certeza?';
+            }
+            if (attempts >= 5) {
+                btnNo.textContent = 'Por favor?';
+            }
+            if (attempts >= 7) {
+                btnNo.textContent = '😢';
+            }
+        }
+
+        function sayYes() {
+            buttonsContainer.style.display = 'none';
+            document.querySelector('.heart').style.display = 'none';
+            document.querySelector('h1').style.display = 'none';
+            successMessage.style.display = 'block';
+            
+            // Create celebration effect
+            createCelebration();
+        }
+
+        function createCelebration() {
+            const colors = ['#f5576c', '#f093fb', '#667eea', '#764ba2', '#ff6b6b', '#ffd93d'];
+            
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.innerHTML = '❤️';
+                    heart.style.position = 'fixed';
+                    heart.style.left = Math.random() * 100 + 'vw';
+                    heart.style.top = '100vh';
+                    heart.style.fontSize = (Math.random() * 30 + 20) + 'px';
+                    heart.style.animation = `floatUp ${Math.random() * 3 + 2}s ease-out forwards`;
+                    heart.style.zIndex = '1000';
+                    document.body.appendChild(heart);
+                    
+                    setTimeout(() => heart.remove(), 5000);
+                }, i * 100);
+            }
+        }
+
+        // Create floating sparkles
+        function createSparkles() {
+            const sparklesContainer = document.getElementById('sparkles');
+            
+            for (let i = 0; i < 20; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+                sparkle.style.left = Math.random() * 100 + '%';
+                sparkle.style.top = Math.random() * 100 + '%';
+                sparkle.style.animationDelay = Math.random() * 3 + 's';
+                sparklesContainer.appendChild(sparkle);
+            }
+        }
+
+        // Add floating animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes floatUp {
+                0% {
+                    transform: translateY(0) rotate(0deg);
+                    opacity: 1;
+                }
+                100% {
+                    transform: translateY(-100vh) rotate(360deg);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        createSparkles();
+
+        // Also move button on touch for mobile devices
+        btnNo.addEventListener('touchstart', function(e) {
+            e.preventDefault();
+            moveButton();
+        });
+
+        btnNo.addEventListener('click', function(e) {
+            e.preventDefault();
+            moveButton();
+        });
+    </script>
+</body>
+</html>
